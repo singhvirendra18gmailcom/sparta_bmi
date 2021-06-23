@@ -35,7 +35,7 @@ public class UsersResource {
 		return new ResponseEntity<UserDTOsList>(userDtos, HttpStatus.OK);
 	}
 
-	@PostMapping("/user")
+	@PostMapping("/users")
 	private ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
 		return new ResponseEntity<UserDTO>(usersService.save(userDTO), HttpStatus.CREATED);
 	}

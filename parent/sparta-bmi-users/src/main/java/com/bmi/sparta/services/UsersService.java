@@ -21,6 +21,10 @@ public class UsersService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	public boolean existsById(Integer id) {
+		return usersRepository.existsById(id);
+	}
+
 	public UserDTO findById(Integer id) {
 		Optional<Users> userEntity = usersRepository.findById(id);
 		if (userEntity.isPresent()) {
@@ -61,14 +65,9 @@ public class UsersService {
 
 	}
 
-	public UserDTO deleteById(Integer id) {
-		Optional<Users> userEntity = usersRepository.findById(id);
-		if (userEntity.isPresent()) {
-			usersRepository.deleteById(id);
-			return modelMapper.map(userEntity.get(), UserDTO.class);
-		} else {
-			return null;
-		}
+	public void deleteById(Integer id) {
+		usersRepository.deleteById(id);
+
 	}
 
 	public UserDTOsList findAll() {

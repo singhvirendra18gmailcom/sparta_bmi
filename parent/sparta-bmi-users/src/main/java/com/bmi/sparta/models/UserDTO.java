@@ -10,15 +10,9 @@ public class UserDTO {
 	private String height;
 	private String weight;
 	private int age;
-	private String errorMessage;
-
 	
-	public UserDTO(String errorMessage) {
-		super();
-		this.errorMessage = errorMessage;
-	}
-
-	public UserDTO() {
+	
+		public UserDTO() {
 		super();
 	}
 
@@ -62,12 +56,5 @@ public class UserDTO {
 		this.age = age;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-
+	
 }

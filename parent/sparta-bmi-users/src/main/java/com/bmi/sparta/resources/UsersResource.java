@@ -1,4 +1,4 @@
-package com.bmi.sparta.controller;
+package com.bmi.sparta.resources;
 
 import java.util.List;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,7 @@ import com.sun.istack.Nullable;
 
 import javassist.expr.NewArray;
 
+
 @RestController
 public class UsersResource {
 
@@ -30,19 +31,26 @@ public class UsersResource {
 	private UsersService usersService;
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<?> findById(@PathVariable String id) {
+	public ResponseEntity<?> findById(@PathVariable("id") String id) {
+		Integer userId = null;
+		try {
+			userId = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<>("id:" + id + "is not a number",HttpStatus.BAD_REQUEST);
+		}
 		logger.info(" find user for user id " + id);
-		UserDTO userDto = usersService.findById(Integer.parseInt(id));
+		UserDTO userDto = usersService.findById(userId);
 		if (null != userDto) {
 			return new ResponseEntity<>(userDto, HttpStatus.OK);
 		}
+		logger.debug(" No User found for user id: " + id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/users")
 	public ResponseEntity<UserDTOsList> findAll() {
 		UserDTOsList userDtos = usersService.findAll();
-		if (userDtos.getCount() < 1) {
+		if (userDtos.getCount() > 0) {
 			return new ResponseEntity<UserDTOsList>(userDtos, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,8 +68,16 @@ public class UsersResource {
 	}
 
 	@PutMapping("/users/{id}")
-	private ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO, @PathVariable String id) {
-		UserDTO userDto = usersService.update(Integer.parseInt(id), userDTO);
+	private ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable String id) {
+		
+		Integer userId = null;
+		try {
+			userId = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<>("id:" + id + "is not a number",HttpStatus.BAD_REQUEST);
+		}
+		
+		UserDTO userDto = usersService.update(userId, userDTO);
 		if (null != userDto) {
 			return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
 		} else {
@@ -71,12 +87,21 @@ public class UsersResource {
 	}
 
 	@DeleteMapping("/users/{id}")
-	private ResponseEntity<UserDTO> deleteById(@PathVariable String id) {
-		UserDTO userDto = usersService.deleteById(Integer.parseInt(id));
-		if (null != userDto) {
-			return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
+	private ResponseEntity<?> deleteById(@PathVariable String id) {
+		
+		Integer userId = null;
+		try {
+			userId = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<>("id:" + id + "is not a number",HttpStatus.BAD_REQUEST);
+		}
+		
+		boolean exists = usersService.existsById(userId);
+		if(exists) {
+			usersService.deleteById(userId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<UserDTO>(userDto, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

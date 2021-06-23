@@ -6,24 +6,19 @@ import org.springframework.stereotype.Component;
 public class UserDTO {
 
 	private static final long serialVersionUID = 1L;
+	private String id;
 	private String name;
 	private String height;
 	private String weight;
 	private int age;
-	private String errorMessage;
-
-	
-	public UserDTO(String errorMessage) {
-		super();
-		this.errorMessage = errorMessage;
-	}
 
 	public UserDTO() {
 		super();
 	}
 
-	public UserDTO(String name, String height, String weight, int age) {
+	public UserDTO(String id, String name, String height, String weight, int age) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.height = height;
 		this.weight = weight;
@@ -62,12 +57,12 @@ public class UserDTO {
 		this.age = age;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getId() {
+		return id;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

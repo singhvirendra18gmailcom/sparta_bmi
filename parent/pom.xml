@@ -9,5 +9,6 @@
   
   <modules>
   <module>sparta-bmi-users</module>
+  <module>sparta-bmi-core</module>
   </modules>
 </project>

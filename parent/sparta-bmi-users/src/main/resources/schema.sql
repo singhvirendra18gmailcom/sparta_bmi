@@ -1,5 +1,5 @@
-
-CREATE TABLE  `users` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `weight` varchar(45) DEFAULT NULL,

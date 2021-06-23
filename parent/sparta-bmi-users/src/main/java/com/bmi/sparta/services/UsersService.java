@@ -26,7 +26,7 @@ public class UsersService {
 		if (userEntity.isPresent()) {
 			return modelMapper.map(userEntity.get(), UserDTO.class);
 		} else {
-			return new UserDTO();
+			return null;
 		}
 	}
 
